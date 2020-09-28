@@ -5,13 +5,18 @@ import java.util.UUID;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.acme.quarkus.sample.config.Base64Value;
 import org.acme.quarkus.sample.config.GreetingConfig;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class GreetingService {
 
     @Inject
     private GreetingConfig greetingconfig; 
+
+    @ConfigProperty(name="greeting.base64name")
+    Base64Value name;
 
     //@ConfigProperty(name="greeting.name")
     //String name;
@@ -25,7 +30,7 @@ public class GreetingService {
 
     public String sayHello(){
         //final String name = ConfigProvider.getConfig().getValue("greeting.name",String.class);
-        return greetingconfig.getPrefix().orElse("_")+greetingconfig.getName()+greetingconfig.getSuffix()+" your country is "+greetingconfig.getCountry().getName();
+        return greetingconfig.getPrefix().orElse("_")+name+greetingconfig.getSuffix()+" your country is "+greetingconfig.getCountry().getName();
     }
 
     public String sayHello(String name){
